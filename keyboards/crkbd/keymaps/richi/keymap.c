@@ -129,18 +129,3 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
-
-oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
-
-bool oled_task_user(void) {
-    /* KEYBOARD PET VARIABLES START */
-
-    /* KEYBOARD PET VARIABLES END */
-
-    if (is_keyboard_master()) {
-        print_status_narrow();
-    } else {
-        print_logo_narrow();
-    }
-    return false;
-}
