@@ -6,6 +6,7 @@ enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
+  NUM,
   FUNC,
   BACKLIT
 };
@@ -33,17 +34,19 @@ enum custom_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
+  _NUM,
   _FUNC,
 };
 
 // For _QWERTY layer
-#define GUI_ENT  GUI_T(KC_ENT)
-#define LOW_TAB  LT(_LOWER, KC_TAB)
-#define OSL_FUN  OSL(_FUNC)
-#define OSM_AGR  OSM(MOD_RALT)
-#define OSM_LCTL OSM(MOD_LCTL)
-#define OSM_SFT  OSM(MOD_LSFT) 
-#define RSE_BSP  LT(_RAISE, KC_BSPC)
+#define GUI_ENT     GUI_T(KC_ENT)
+#define LOW_TAB     LT(_LOWER, KC_TAB)
+#define NUM_SPACE   LT(_NUM, KC_SPC)
+#define OSL_FUN     OSL(_FUNC)
+#define OSM_AGR     OSM(MOD_RALT)
+#define OSM_LCTL    OSM(MOD_LCTL)
+#define OSM_SFT     OSM(MOD_LSFT) 
+#define RSE_BSP     LT(_RAISE, KC_BSPC)
 
 
 // For _RAISE layer
@@ -52,13 +55,13 @@ enum custom_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
+       KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_QUOT ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM_LCTL, GUI_ENT, LOW_TAB,   RSE_BSP ,KC_SPC  ,OSM_SFT
+                                         OSM_LCTL, NUM_SPACE, LOW_TAB,   RSE_BSP ,GUI_ENT ,OSM_SFT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -81,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_HOME, KC_END , KC_MINS, KC_EQL , KC_PGDN,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_APP ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_LT  , KC_GT  , KC_COPY, KC_PSTE, KC_SCLN,                      KC_MPLY, KC_MPRV, KC_MNXT, KC_VOLD, KC_VOLU,_______ ,
+      _______, KC_LT  , KC_GT  , KC_COPY, KC_PASTE, KC_SCLN,                      KC_MPLY, KC_MPRV, KC_MNXT, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           CTL_ESC, KC_TRNS, XXXXXXX,    RAISE  , KC_TRNS, KC_TRNS\
                                       //`--------------------------'  `--------------------------'
@@ -97,7 +100,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, FUNC   , XXXXXXX
                                       //`--------------------------'  `--------------------------'
-  )
+  ),
+
+    [_NUM] = LAYOUT(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,                      KC_NUM_LOCK, KC_P7, KC_P8, KC_P9,  	 	KC_PMNS, KC_PSLS ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX,    XXXXXXX,   XXXXXXX,    XXXXXXX,    XXXXXXX,          KC_CALC,    KC_P4,    KC_P5,    KC_P6,    KC_PPLS,    KC_PAST ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX , XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX,                       XXXXXXX, KC_P1, KC_P2,KC_P3,  KC_PDOT, _______ ,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX,  NUM, XXXXXXX,    KC_BSPC, KC_PENT,  KC_P0
+                                      //`--------------------------'  `--------------------------'
+    ),
+
+
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -106,7 +123,24 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM_THUMB;
       case LT(_LOWER, KC_TAB):
             return TAPPING_TERM_THUMB;
+      case LT(_NUM, KC_SPC):
+            return TAPPING_TERM_THUMB;
       default:
             return TAPPING_TERM;
     }
+}
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
+
+bool oled_task_user(void) {
+    /* KEYBOARD PET VARIABLES START */
+
+    /* KEYBOARD PET VARIABLES END */
+
+    if (is_keyboard_master()) {
+        print_status_narrow();
+    } else {
+        print_logo_narrow();
+    }
+    return false;
 }

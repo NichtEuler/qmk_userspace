@@ -12,8 +12,8 @@ This is the C configuration file for the keymap
 
 /* Select hand configuration */
 
-// #define MASTER_LEFT
-#define MASTER_RIGHT
+#define MASTER_LEFT
+//#define MASTER_RIGHT
 // #define EE_HANDS
 
 //#define SSD1306OLED
@@ -29,7 +29,7 @@ This is the C configuration file for the keymap
 #define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 // used for Tapping Term on thumb keys
-#define TAPPING_TERM_THUMB 125
+#define TAPPING_TERM_THUMB 150
 
 // If you press a dual-role key, press another key, and then release the
 // dual-role key, all within the tapping term, by default the dual-role key
@@ -61,3 +61,4 @@ This is the C configuration file for the keymap
 #define ONESHOT_TAP_TOGGLE 3  /* Tapping this number of times holds the key until tapped once again. */
 #define ONESHOT_TIMEOUT 2000  /* Time (in ms) before the one shot key is released */
 
+#define OLED_DISABLE_TIMEOUT
