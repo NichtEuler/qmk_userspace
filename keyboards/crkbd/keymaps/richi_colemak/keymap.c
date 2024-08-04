@@ -5,6 +5,7 @@
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   COLEMAK,
+  BATTLEFIELD,
   LOWER,
   RAISE,
   NUM,
@@ -34,6 +35,7 @@ combo_t key_combos[COMBO_COUNT] = {
 enum custom_layers {
   _QWERTY,
   _COLEMAK,
+  _BATTLEFIELD,
   _LOWER,
   _RAISE,
   _NUM,
@@ -41,7 +43,7 @@ enum custom_layers {
 };
 
 // For _QWERTY layer
-#define GUI_ENT     GUI_T(KC_ENT)
+#define GUI_ENT     LT(_RAISE, KC_ENT)
 #define LOW_TAB     LT(_LOWER, KC_TAB)
 #define NUM_SPACE   LT(_NUM, KC_SPC)
 #define OSL_FUN     OSL(_FUNC)
@@ -58,13 +60,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_QUOT ,OSM_AGR ,
+ OSM(MOD_LALT),  LGUI_T(KC_A),      LALT_T(KC_S),      LCTL_T(KC_D),      LSFT_T(KC_F),      KC_G,              KC_H,              LSFT_T(KC_J),      LCTL_T(KC_K),      LALT_T(KC_L),      LGUI_T(KC_QUOT) ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM_LCTL, NUM_SPACE, LOW_TAB,   RSE_BSP ,GUI_ENT ,OSM_SFT
+                                         OSM_LCTL, NUM_SPACE, LOW_TAB,   GUI_ENT,KC_BSPC ,KC_DEL
                                       //`--------------------------'  `--------------------------'
   ),
+
+  [_BATTLEFIELD] = LAYOUT(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_2,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        KC_4,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_QUOT ,OSM_AGR ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+ OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         KC_1, NUM_SPACE, KC_3,         GUI_ENT,KC_BSPC  ,KC_DEL
+                                      //`--------------------------'  `--------------------------'
+  ),
+    [_COLEMAK] = LAYOUT(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+    KC_ESC,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                     KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_QUOT, KC_DEL  ,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    OSM(MOD_LALT),   LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              KC_M,              LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O)    ,OSM_AGR ,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                     KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                        OSM_LCTL, NUM_SPACE, LOW_TAB,   GUI_ENT,KC_BSPC ,KC_DEL
+                                    //`--------------------------'  `--------------------------'
+    ),
 
   [_LOWER] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -95,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, KC_F1  , KC_F2  , KC_F3   , KC_F4 ,  KC_F5 ,                     KC_F6   , KC_F7  , KC_F8  , KC_F9  , KC_F10 ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_F11 , KC_F12 , XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX,TO(_COLEMAK),  TO(_QWERTY) ,
+      _______, KC_F11 , KC_F12 , XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, TO(_BATTLEFIELD),TO(_COLEMAK),  TO(_QWERTY) ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,XXXXXXX ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -114,19 +139,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           XXXXXXX,  NUM, XXXXXXX,    KC_BSPC, KC_PENT,  KC_P0
                                       //`--------------------------'  `--------------------------'
     ),
-
-      [_COLEMAK] = LAYOUT(
-    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_ESC,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                     KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_QUOT, KC_DEL  ,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    OSM(MOD_LALT),   KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                     KC_M    ,KC_N    ,KC_E    ,KC_I    ,KC_O    ,OSM_AGR ,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                     KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN,
-    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            OSM_LCTL, NUM_SPACE, LOW_TAB,   RSE_BSP ,GUI_ENT ,OSM_SFT
-                                        //`--------------------------'  `--------------------------'
-    ),
-
 
 };
 
